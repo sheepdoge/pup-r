@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - defaults/main.yml
+
+  tasks:
+    - include_tasks: tasks/main.yml

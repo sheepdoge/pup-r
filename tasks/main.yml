@@ -1,0 +1,25 @@
+---
+- name: install R with apt
+  apt:
+    name: ["r-base"]
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  become: true
+
+- name: create directory for local r packages
+  file:
+    path: "{{ r_local_package_directory }}"
+    state: directory
+
+- name: create Renviron file
+  template:
+    src: templates/Renviron
+    dest: ~/.Renviron
+    mode: "0644"
+
+- name: install renv if not installed
+  shell: |
+    Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")'
+  args:
+    executable: /bin/bash
